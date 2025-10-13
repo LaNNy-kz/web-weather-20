@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile — Weather Pro</title>
+  <meta name="description" content="Manage your profile, favorites, and account settings in Weather Pro." />
+  <meta name="keywords" content="profile, account, settings, favorites, weather" />
+  <meta name="author" content="Zhanakhmet Abdulaziz and Tauken Ruslan" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://openweathermap.org">
+  <link rel="dns-prefetch" href="https://openweathermap.org">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Navigation Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">🌤️</div>
+        <div class="logo-text">
+          <h1>Weather Pro</h1>
+          <span>Professional Forecast</span>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    <div class="sidebar-content">
+      <div class="search-section">
+        <div class="search-container">
+          <input type="text" id="q" placeholder="Search city..." autocomplete="off" />
+          <button class="search-btn">🔍</button>
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button id="useLocation" class="location-btn">
+          <span class="icon">📍</span>
+          <span>My Location</span>
+        </button>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="./index.html" class="nav-item">
+          <span class="icon">🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="./profile.html" class="nav-item active">
+          <span class="icon">👤</span>
+          <span>Profile</span>
+        </a>
+        <a href="./faq.html" class="nav-item">
+          <span class="icon">❓</span>
+          <span>FAQ</span>
+        </a>
+      </div>
+      
+      <div class="user-section">
+        <div class="user-info">
+          <img id="headerAvatar" class="user-avatar" src="" alt="" style="display:none" />
+          <div class="user-details">
+            <span id="profileBtn" class="user-name">Guest</span>
+            <span class="user-status">Offline</span>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button id="openAuth" class="auth-btn">Sign In</button>
+          <button id="toggleTheme" class="theme-btn" title="Toggle theme">🌓</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="breadcrumb">
+          <span>Profile</span>
+          <span class="separator">/</span>
+          <span>Account Settings</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <div class="status-indicator" id="status"></div>
+        <button id="clearCache" class="clear-cache-btn" title="Clear cache">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Profile Content -->
+    <div class="profile-container">
+      <!-- Profile Header -->
+      <section class="profile-header">
+        <div class="profile-hero">
+          <div class="profile-avatar-section">
+            <div class="avatar-container">
+              <img id="avatarPreview" class="profile-avatar" alt="Profile Avatar" />
+              <div class="avatar-overlay">
+                <label for="avatarFile" class="avatar-upload-btn">
+                  <span class="icon">📷</span>
+                  <span>Change Photo</span>
+                </label>
+                <input id="avatarFile" type="file" accept="image/*" hidden />
+              </div>
+            </div>
+            <div class="avatar-info">
+              <h2 id="userDisplayName">Guest User</h2>
+              <p id="userEmail">guest@example.com</p>
+              <div class="user-stats">
+                <div class="stat-item">
+                  <span class="stat-value" id="favoritesCount">0</span>
+                  <span class="stat-label">Favorites</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value" id="locationsCount">0</span>
+                  <span class="stat-label">Locations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Settings -->
+      <section class="profile-settings">
+        <div class="settings-grid">
+          <!-- Personal Information -->
+          <div class="settings-card">
+            <div class="card-header">
+              <h3>👤 Personal Information</h3>
+              <span class="card-subtitle">Update your profile details</span>
+            </div>
+            <div class="card-content">
+              <form id="profileForm" class="profile-form" novalidate>
+                <div class="form-group">
+                  <label for="pfName">Full Name</label>
+                  <input id="pfName" name="name" type="text" required minlength="2" placeholder="Enter your full name" autocomplete="name" />
+                  <small class="error"></small>
+                </div>
+                <div class="form-group">
+                  <label for="pfEmail">Email Address</label>
+                  <input id="pfEmail" name="email" type="email" required placeholder="Enter your email" autocomplete="email" />
+                  <small class="error"></small>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary">
+                    <span class="icon">💾</span>
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Favorite Cities -->
+          <div class="settings-card">
+            <div class="card-header">
+              <h3>⭐ Favorite Cities</h3>
+              <span class="card-subtitle">Manage your favorite locations</span>
+            </div>
+            <div class="card-content">
+              <div class="fav-add-section">
+                <div class="fav-input-group">
+                  <input id="favCity" type="text" placeholder="Add a city to favorites..." autocomplete="off" />
+                  <button id="favAdd" class="btn-secondary">
+                    <span class="icon">➕</span>
+                    Add
+                  </button>
+                </div>
+              </div>
+              <div id="favorites" class="favorites-grid"></div>
+            </div>
+          </div>
+
+          <!-- Account Settings -->
+          <div class="settings-card">
+            <div class="card-header">
+              <h3>⚙️ Account Settings</h3>
+              <span class="card-subtitle">Manage your account preferences</span>
+            </div>
+            <div class="card-content">
+              <div class="settings-list">
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Theme Preference</h4>
+                    <p>Choose between light and dark mode</p>
+                  </div>
+                  <button id="toggleTheme" class="theme-toggle">
+                    <span class="icon">🌓</span>
+                    <span>Toggle Theme</span>
+                  </button>
+                </div>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Data & Cache</h4>
+                    <p>Clear stored data and cache</p>
+                  </div>
+                  <button id="clearCache" class="clear-cache-btn">
+                    <span class="icon">🗑️</span>
+                    <span>Clear Cache</span>
+                  </button>
+                </div>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Account Status</h4>
+                    <p>Sign in to sync your data</p>
+                  </div>
+                  <button id="openAuth" class="auth-btn">
+                    <span class="icon">🔑</span>
+                    <span>Sign In</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal" aria-hidden="true" aria-labelledby="authTitle" role="dialog">
+    <div class="modal-backdrop" data-close="authModal"></div>
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h3 id="authTitle">👤 Account</h3>
+        <button class="modal-close" data-close="authModal" aria-label="Close">✕</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="login" role="tab" aria-selected="true">🔑 Sign in</button>
+        <button class="tab" data-tab="register" role="tab">📝 Sign up</button>
+      </div>
+      <div class="tab-panels">
+        <form id="loginForm" class="form panel active" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password" type="password" required minlength="6" placeholder="••••••••" autocomplete="current-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">🚀 Sign in</button>
+        </form>
+
+        <form id="registerForm" class="form panel" novalidate>
+          <div class="field">
+            <label for="regName">Name</label>
+            <input id="regName" name="name" type="text" required minlength="2" placeholder="Your name" autocomplete="name" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regPassword">Password</label>
+            <input id="regPassword" name="password" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regConfirm">Confirm password</label>
+            <input id="regConfirm" name="confirm" type="password" required minlength="6" placeholder="Repeat password" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">✨ Create account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container muted">
+    <p>✨ Made with ❤️ by <strong>Zhanakhmet Abdulaziz</strong> and <strong>Tauken Ruslan</strong></p>
+    <p>🌤️ Professional Weather Application</p>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script src="./toasts.js"></script>
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./profile.js"></script>
+</body>
+</html>
