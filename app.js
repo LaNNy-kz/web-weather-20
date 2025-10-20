@@ -24,6 +24,7 @@ function fetchWithTimeout(resource, options = {}) {
 
 const state = {
   units: 'metric', // we convert Kelvin -> C manually for compatibility
+  lang: 'en', // default language
 };
 
 function getKey() {
@@ -103,7 +104,7 @@ async function getWeather(lat, lon) {
   if (cached) return cached;
 
   // First fetch current (shows faster), then load forecast and AQI in background
-  const currentRes = await fetchWithTimeout(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`, { timeout: 6000 });
+  const currentRes = await fetchWithTimeout(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=${state.lang}&appid=${key}`, { timeout: 6000 });
   if (!currentRes.ok) {
     if (currentRes.status === 401) setStatus('OpenWeather API key invalid or unauthorized', 'error');
     throw new Error('Weather API (current)');
@@ -111,7 +112,7 @@ async function getWeather(lat, lon) {
   const current = await currentRes.json();
 
   // Parallel: forecast (may take longer), AQI will be fetched later
-  const forecastP = fetchWithTimeout(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`, { timeout: 8000 })
+  const forecastP = fetchWithTimeout(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=${state.lang}&appid=${key}`, { timeout: 8000 })
     .then(r => r.ok ? r.json() : null)
     .catch(() => null);
   const airP = fetchWithTimeout(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${key}`, { timeout: 5000 })
@@ -343,7 +344,9 @@ function renderAQI(w) {
 
 async function loadByCoords(lat, lon, placeOverride) {
   try {
-  setStatus('Loading…');
+    // Восстанавливаем язык из localStorage или используем текущий
+    state.lang = localStorage.getItem('weatherLang') || state.lang;
+    setStatus(state.lang === 'ru' ? 'Загрузка…' : 'Loading…');
     const w = await getWeather(lat, lon);
     renderCurrent(placeOverride, w);
     if (w.forecast) {
@@ -376,8 +379,18 @@ async function onSearchSubmit(city) {
   const list = await geocode(city);
   if (!list.length) return setStatus('City not found', 'error');
   const { lat, lon, local_names, name, country, state } = list[0];
-  const place = local_names?.ru || `${name}${state ? ', '+state : ''}, ${country}`;
+  
+  // Определяем язык ввода
+  const isRussianInput = /[а-яё]/i.test(city);
+  state.lang = isRussianInput ? 'ru' : 'en';
+  
+  // Формируем название места в зависимости от языка
+  const place = isRussianInput ? 
+    (local_names?.ru || `${name}${state ? ', '+state : ''}, ${country}`) : 
+    `${name}${state ? ', '+state : ''}, ${country}`;
+  
   localStorage.setItem('lastCity', place);
+  localStorage.setItem('weatherLang', state.lang);
   loadByCoords(lat, lon, place);
 }
 
@@ -386,11 +399,24 @@ q.addEventListener('input', window.debounce(async () => {
   if (val.length < 2) { suggestions.classList.remove('show'); return; }
   try {
     const res = await geocode(val);
-    // sort suggestions when sorter exists
+    // Группируем города по имени (игнорируя регистр)
+    const groupedCities = new Map();
+    
+    res.forEach(loc => {
+      const baseNameLower = loc.name.toLowerCase();
+      const isRussianInput = /[а-яё]/i.test(val);
+      const displayName = isRussianInput ? (loc.local_names?.ru || loc.name) : loc.name;
+      
+      if (!groupedCities.has(baseNameLower) || 
+          (isRussianInput && loc.local_names?.ru && !groupedCities.get(baseNameLower).local_names?.ru)) {
+        groupedCities.set(baseNameLower, loc);
+      }
+    });
+
     const sortEl = document.getElementById('sortCities');
     const order = sortEl ? sortEl.value : 'asc';
     const collator = new Intl.Collator('ru-RU');
-    const sorted = [...res].sort((a, b) => {
+    const sorted = [...groupedCities.values()].sort((a, b) => {
       const nameA = (a.local_names?.ru || a.name || '').toString();
       const nameB = (b.local_names?.ru || b.name || '').toString();
       const cmp = collator.compare(nameA, nameB);
@@ -400,7 +426,10 @@ q.addEventListener('input', window.debounce(async () => {
     suggestions.innerHTML = '';
     sorted.forEach(loc => {
       const btn = document.createElement('button');
-      const title = loc.local_names?.ru || `${loc.name}${loc.state ? ', '+loc.state : ''}, ${loc.country}`;
+      const isRussianInput = /[а-яё]/i.test(val);
+      const title = isRussianInput ? 
+        (loc.local_names?.ru || `${loc.name}${loc.state ? ', '+loc.state : ''}, ${loc.country}`) :
+        `${loc.name}${loc.state ? ', '+loc.state : ''}, ${loc.country}`;
       btn.textContent = title;
       btn.addEventListener('click', () => {
         if (!HAS_WEATHER_UI) { window.location.href = `index.html#q=${encodeURIComponent(title)}`; return; }

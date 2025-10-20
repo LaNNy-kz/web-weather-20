@@ -211,21 +211,21 @@ body {
 .search-container input {
   width: 100%;
   padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-lg);
-  color: var(--text-primary);
-  font-size: 0.875rem;
+  color: white;
+  font-size: 1rem;
   transition: all var(--transition-normal);
   backdrop-filter: blur(12px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .search-container input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
-  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  background: rgba(255, 255, 255, 0.35);
   transform: translateY(-1px);
 }
 
@@ -251,12 +251,12 @@ body {
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
   margin-top: var(--space-sm);
   backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   z-index: 100;
   display: none;
   overflow: hidden;
@@ -273,14 +273,16 @@ body {
   background: none;
   border: none;
   text-align: left;
-  color: var(--text-primary);
+  color: white;
   cursor: pointer;
-  transition: background var(--transition-fast);
-  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .suggestions button:hover {
-  background: var(--bg-card-hover);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary);
 }
 
 .location-btn {
