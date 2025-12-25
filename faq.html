@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ — Weather Pro</title>
+  <meta name="description" content="Frequently asked questions about Weather Pro - your professional weather application." />
+  <meta name="keywords" content="faq, help, support, weather, questions" />
+  <meta name="author" content="Zhanakhmet Abdulaziz and Tauken Ruslan" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://openweathermap.org">
+  <link rel="dns-prefetch" href="https://openweathermap.org">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Navigation Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">🌤️</div>
+        <div class="logo-text">
+          <h1>Weather Pro</h1>
+          <span>Professional Forecast</span>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    <div class="sidebar-content">
+      <div class="search-section">
+        <div class="search-container">
+          <input type="text" id="q" placeholder="Search city..." autocomplete="off" />
+          <button class="search-btn">🔍</button>
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button id="useLocation" class="location-btn">
+          <span class="icon">📍</span>
+          <span>My Location</span>
+        </button>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="./index.html" class="nav-item">
+          <span class="icon">🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="./profile.html" class="nav-item">
+          <span class="icon">👤</span>
+          <span>Profile</span>
+        </a>
+        <a href="./faq.html" class="nav-item active">
+          <span class="icon">❓</span>
+          <span>FAQ</span>
+        </a>
+      </div>
+      
+      <div class="user-section">
+        <div class="user-info">
+          <img id="headerAvatar" class="user-avatar" src="" alt="" style="display:none" />
+          <div class="user-details">
+            <span id="profileBtn" class="user-name">Guest</span>
+            <span class="user-status">Offline</span>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button id="openAuth" class="auth-btn">Sign In</button>
+          <button id="toggleTheme" class="theme-btn" title="Toggle theme">🌓</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="breadcrumb">
+          <span>FAQ</span>
+          <span class="separator">/</span>
+          <span>Help & Support</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <div class="status-indicator" id="status"></div>
+        <button id="clearCache" class="clear-cache-btn" title="Clear cache">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- FAQ Content -->
+    <div class="faq-container">
+      <!-- FAQ Header -->
+      <section class="faq-header">
+        <div class="faq-hero">
+          <div class="faq-icon">❓</div>
+          <div class="faq-title-section">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about Weather Pro</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Categories -->
+      <section class="faq-categories">
+        <div class="category-tabs">
+          <button class="category-tab active" data-category="general">🌐 General</button>
+          <button class="category-tab" data-category="technical">⚙️ Technical</button>
+          <button class="category-tab" data-category="account">👤 Account</button>
+          <button class="category-tab" data-category="features">✨ Features</button>
+        </div>
+      </section>
+
+      <!-- FAQ Content -->
+      <section class="faq-content">
+        <!-- General Questions -->
+        <div class="faq-section active" id="general">
+          <div class="faq-grid">
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>🌍 Where does weather data come from?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>We use <strong>OpenWeather API</strong> which provides:</p>
+                <ul>
+                  <li>🌍 Geocoding services for location search</li>
+                  <li>🌡️ Current weather conditions</li>
+                  <li>📊 5-day/3-hour forecast data</li>
+                  <li>🌬️ Air quality information (AQI)</li>
+                </ul>
+                <p>All data is updated in real-time and sourced from professional meteorological services.</p>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>🎨 How to change theme?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Click the <strong>🌓</strong> button in the top bar or sidebar. You can choose between:</p>
+                <ul>
+                  <li>🌙 Dark mode - Perfect for low-light environments</li>
+                  <li>☀️ Light mode - Great for bright conditions</li>
+                </ul>
+                <p>Your preference is automatically saved and will be remembered for future visits.</p>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>📍 How to enable geolocation?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>To use automatic location detection:</p>
+                <ol>
+                  <li>Click <strong>"My Location"</strong> button</li>
+                  <li>Allow geolocation access when prompted by your browser</li>
+                  <li>If denied, you can still use the search function</li>
+                </ol>
+                <p><em>Note: Location data is only used to provide weather information and is not stored.</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Questions -->
+        <div class="faq-section" id="technical">
+          <div class="faq-grid">
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>🔐 Why is it unsafe to store API keys in config.js?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Client-side code is visible to everyone. For production applications:</p>
+                <ul>
+                  <li>🔒 Use server-side proxy for API requests</li>
+                  <li>🛡️ Keep API keys secure on your backend</li>
+                  <li>🌐 Implement proper authentication</li>
+                  <li>🔐 Use HTTPS for all communications</li>
+                </ul>
+                <p>This demo is for educational purposes only.</p>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>⚡ How does caching work?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Weather Pro uses intelligent caching to improve performance:</p>
+                <ul>
+                  <li>📱 Data is cached locally in your browser</li>
+                  <li>⏰ Cache expires automatically (3 minutes for weather data)</li>
+                  <li>🔄 Fresh data is fetched when needed</li>
+                  <li>🗑️ You can clear cache manually if needed</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>📱 Is the app mobile-friendly?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Yes! Weather Pro is fully responsive and optimized for:</p>
+                <ul>
+                  <li>📱 Mobile phones (iOS & Android)</li>
+                  <li>📱 Tablets (iPad, Android tablets)</li>
+                  <li>💻 Desktop computers</li>
+                  <li>🖥️ Large screens and monitors</li>
+                </ul>
+                <p>The interface adapts automatically to your screen size.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Questions -->
+        <div class="faq-section" id="account">
+          <div class="faq-grid">
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>🔐 How secure is authentication?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>This demo uses client-side authentication with:</p>
+                <ul>
+                  <li>🔐 SHA-256 password hashing (Web Crypto API)</li>
+                  <li>💾 Local storage for user data</li>
+                  <li>🛡️ Basic security measures</li>
+                </ul>
+                <p><strong>For production:</strong> Use a secure backend with proper sessions, JWT tokens, and HTTPS.</p>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>⭐ How do favorites work?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Save your favorite cities for quick access:</p>
+                <ul>
+                  <li>⭐ Click the star icon to add/remove favorites</li>
+                  <li>📱 Access favorites from your profile</li>
+                  <li>🔄 Sync across devices when signed in</li>
+                  <li>🗑️ Manage favorites in your profile settings</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Questions -->
+        <div class="faq-section" id="features">
+          <div class="faq-grid">
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>📊 What weather information is available?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Weather Pro provides comprehensive weather data:</p>
+                <ul>
+                  <li>🌡️ Current temperature and "feels like"</li>
+                  <li>🌬️ Wind speed and direction</li>
+                  <li>💧 Humidity percentage</li>
+                  <li>📊 Atmospheric pressure</li>
+                  <li>🌬️ Air quality index (AQI)</li>
+                  <li>📈 24-hour hourly forecast</li>
+                  <li>📅 7-day weather forecast</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-question">
+                <h3>📈 How accurate are the forecasts?</h3>
+                <button class="faq-toggle">+</button>
+              </div>
+              <div class="faq-answer">
+                <p>Weather forecasts are provided by professional meteorological services:</p>
+                <ul>
+                  <li>🎯 High accuracy for current conditions</li>
+                  <li>📊 Good reliability for 24-48 hour forecasts</li>
+                  <li>📈 General trends for 7-day outlook</li>
+                  <li>🔄 Updated every 3 hours</li>
+                </ul>
+                <p><em>Note: Weather forecasting is inherently uncertain, especially for longer periods.</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="contact-section">
+        <div class="contact-card">
+          <div class="contact-header">
+            <h3>💬 Still have questions?</h3>
+            <p>Can't find what you're looking for? We're here to help!</p>
+          </div>
+          <div class="contact-actions">
+            <button class="contact-btn">
+              <span class="icon">📧</span>
+              <span>Email Support</span>
+            </button>
+            <button class="contact-btn">
+              <span class="icon">💬</span>
+              <span>Live Chat</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal" aria-hidden="true" aria-labelledby="authTitle" role="dialog">
+    <div class="modal-backdrop" data-close="authModal"></div>
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h3 id="authTitle">👤 Account</h3>
+        <button class="modal-close" data-close="authModal" aria-label="Close">✕</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="login" role="tab" aria-selected="true">🔑 Sign in</button>
+        <button class="tab" data-tab="register" role="tab">📝 Sign up</button>
+      </div>
+      <div class="tab-panels">
+        <form id="loginForm" class="form panel active" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password" type="password" required minlength="6" placeholder="••••••••" autocomplete="current-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">🚀 Sign in</button>
+        </form>
+
+        <form id="registerForm" class="form panel" novalidate>
+          <div class="field">
+            <label for="regName">Name</label>
+            <input id="regName" name="name" type="text" required minlength="2" placeholder="Your name" autocomplete="name" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regPassword">Password</label>
+            <input id="regPassword" name="password" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regConfirm">Confirm password</label>
+            <input id="regConfirm" name="confirm" type="password" required minlength="6" placeholder="Repeat password" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">✨ Create account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container muted">
+    <p>✨ Made with ❤️ by <strong>Zhanakhmet Abdulaziz</strong> and <strong>Tauken Ruslan</strong></p>
+    <p>🌤️ Professional Weather Application</p>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script src="./toasts.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather Pro — Professional Weather App</title>
+  <meta name="description" content="Professional weather application with real-time forecasts, air quality monitoring, and beautiful modern design." />
+  <meta name="keywords" content="weather, forecast, temperature, air quality, professional, modern" />
+  <meta name="author" content="Zhanakhmet Abdulaziz and Tauken Ruslan" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Weather Pro — Professional Weather App" />
+  <meta property="og:description" content="Professional weather application with real-time forecasts and air quality monitoring." />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="Weather Pro — Professional Weather App" />
+  <meta property="twitter:description" content="Professional weather application with real-time forecasts and air quality monitoring." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://openweathermap.org">
+  <link rel="dns-prefetch" href="https://openweathermap.org">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Navigation Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">🌤️</div>
+        <div class="logo-text">
+          <h1>Weather Pro</h1>
+          <span>Professional Forecast</span>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    
+    <div class="sidebar-content">
+      <div class="search-section">
+        <div class="search-container">
+          <input type="text" id="q" placeholder="Search city..." autocomplete="off" />
+          <button class="search-btn">🔍</button>
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button id="useLocation" class="location-btn">
+          <span class="icon">📍</span>
+          <span>My Location</span>
+        </button>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="./index.html" class="nav-item active">
+          <span class="icon">🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="./profile.html" class="nav-item">
+          <span class="icon">👤</span>
+          <span>Profile</span>
+        </a>
+        <a href="./faq.html" class="nav-item">
+          <span class="icon">❓</span>
+          <span>FAQ</span>
+        </a>
+      </div>
+      
+      <div class="user-section">
+        <div class="user-info">
+          <img id="headerAvatar" class="user-avatar" src="" alt="" style="display:none" />
+          <div class="user-details">
+            <span id="profileBtn" class="user-name">Guest</span>
+            <span class="user-status">Offline</span>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button id="openAuth" class="auth-btn">Sign In</button>
+          <button id="toggleTheme" class="theme-btn" title="Toggle theme">🌓</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="breadcrumb">
+          <span>Dashboard</span>
+          <span class="separator">/</span>
+          <span id="breadcrumbPlace">Select Location</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <div class="status-indicator" id="status"></div>
+        <button id="favToggle" class="favorite-btn" title="Add to favorites" aria-pressed="false">
+          <span class="icon">⭐</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="weather-main" id="current">
+          <div class="weather-icon-container">
+            <img id="icon" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="weather-info">
+            <div class="temperature" id="temp">—°</div>
+            <div class="weather-description" id="desc">—</div>
+            <div class="location-info">
+              <h2 id="place">—</h2>
+              <span id="updated">—</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="weather-details">
+          <div class="detail-item">
+            <span class="label">Feels like</span>
+            <span class="value" id="feels">—</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Wind</span>
+            <span class="value" id="wind">—</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Humidity</span>
+            <span class="value" id="humidity">—</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Pressure</span>
+            <span class="value" id="pressure">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Hourly Forecast -->
+      <section class="dashboard-card hourly-forecast">
+        <div class="card-header">
+          <h3>📊 24-Hour Forecast</h3>
+          <div class="card-actions">
+            <button class="view-toggle active" data-view="chart">Chart</button>
+            <button class="view-toggle" data-view="list">List</button>
+          </div>
+        </div>
+        <div class="card-content">
+          <div id="hourly" class="hourly-list skeleton"></div>
+          <canvas id="hourlyChart" width="800" height="200" class="hourly-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- Weekly Forecast -->
+      <section class="dashboard-card weekly-forecast">
+        <div class="card-header">
+          <h3>📅 7-Day Forecast</h3>
+        </div>
+        <div class="card-content">
+          <div id="daily" class="daily-list skeleton"></div>
+        </div>
+      </section>
+
+      <!-- Air Quality -->
+      <section class="dashboard-card air-quality">
+        <div class="card-header">
+          <h3>🌬️ Air Quality</h3>
+        </div>
+        <div class="card-content">
+          <div id="aqi" class="aqi-content skeleton">—</div>
+        </div>
+      </section>
+
+      <!-- Weather Map -->
+      <section class="dashboard-card weather-map">
+        <div class="card-header">
+          <h3>🗺️ Weather Map</h3>
+        </div>
+        <div class="card-content">
+          <div class="map-placeholder">
+            <div class="map-icon">🗺️</div>
+            <p>Interactive weather map coming soon</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Auth modal (login/register) -->
+  <div id="authModal" class="modal" aria-hidden="true" aria-labelledby="authTitle" role="dialog">
+    <div class="modal-backdrop" data-close="authModal"></div>
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h3 id="authTitle">👤 Account</h3>
+        <button class="modal-close" data-close="authModal" aria-label="Close">✕</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="login" role="tab" aria-selected="true">🔑 Sign in</button>
+        <button class="tab" data-tab="register" role="tab">📝 Sign up</button>
+      </div>
+      <div class="tab-panels">
+        <form id="loginForm" class="form panel active" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password" type="password" required minlength="6" placeholder="••••••••" autocomplete="current-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">🚀 Sign in</button>
+        </form>
+
+        <form id="registerForm" class="form panel" novalidate>
+          <div class="field">
+            <label for="regName">Name</label>
+            <input id="regName" name="name" type="text" required minlength="2" placeholder="Your name" autocomplete="name" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regPassword">Password</label>
+            <input id="regPassword" name="password" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <label for="regConfirm">Confirm password</label>
+            <input id="regConfirm" name="confirm" type="password" required minlength="6" placeholder="Repeat password" autocomplete="new-password" />
+            <small class="error"></small>
+          </div>
+          <button class="btn-primary" type="submit">✨ Create account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container muted">
+    <p>✨ Made with ❤️ by <strong>Zhanakhmet Abdulaziz</strong> and <strong>Tauken Ruslan</strong></p>
+    <p>🌤️ Professional Weather Application</p>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script src="./utils.js"></script>
+  <script src="./toasts.js"></script>
+  <script src="./app.js"></script>
+
+</body>
+</html>
